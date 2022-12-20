@@ -24,15 +24,21 @@ public class IntegerListTests {
 
     @Test
     public void whenItemAddedToSpecificIndexWhenElementsIsShiftedRight() {
-        this.integerList.add(10);
-        this.integerList.add(0, 11);
-        this.integerList.add(1, 12);
-        this.integerList.add(3, 100);
-        Assertions.assertEquals(4, this.integerList.size());
+        this.integerList.add(10);                  //размерность массива 0 - 1     0+0/2+1=1       размер листа 1
+        this.integerList.add(0, 11);    //размерность массива 1 - 2     1+1/2+1=2,5     размер листа 2
+        this.integerList.add(1, 12);    //размерность массива 2 - 4     2+2/2+1=4       размер листа 3
+        this.integerList.add(3, 100);   //размерность массива 4 - 4                     размер листа 4
+        //далее элементы для проверки расширения массива до size=7 и далее до 11, округляется java в меньшую сторону
+        this.integerList.add(13);                   //размерность массива 4 - 7     4+4/2+1=7       размер листа 5
+        this.integerList.add(13);                   //размерность массива 7 - 7                     размер листа 6
+        this.integerList.add(13);                   //размерность массива 7 - 7                     размер листа 4
+        this.integerList.add(13);                   //размерность массива 7 - 11    7+7/2+1=11,5    размер листа 8
+        Assertions.assertEquals(8, this.integerList.size());
         Assertions.assertEquals(11, this.integerList.get(0));
         Assertions.assertEquals(12, this.integerList.get(1));
         Assertions.assertEquals(10, this.integerList.get(2));
         Assertions.assertEquals(100, this.integerList.get(3));
+        Assertions.assertEquals(13, this.integerList.get(4));
     }
 
     @Test

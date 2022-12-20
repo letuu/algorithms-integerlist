@@ -183,16 +183,53 @@ public class IntegerListImpl implements IntegerList{
         }
     }
 
+//    private void sort(Integer[] array) {
+//        for (int i = 1; i < array.length; i++) {
+//            int temp = array[i];
+//            int j = i;
+//            while (j > 0 && array[j - 1] >= temp) {
+//                array[j] = array[j - 1];
+//                j--;
+//            }
+//            array[j] = temp;
+//        }
+//    }
+    //Сортировка вставкой - с квадратичной сложностью, быстрее, чем пузырьковая сортировка и сортировка выбором
+
     private void sort(Integer[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int temp = array[i];
-            int j = i;
-            while (j > 0 && array[j - 1] >= temp) {
-                array[j] = array[j - 1];
-                j--;
-            }
-            array[j] = temp;
+        quickSort(array, 0, array.length - 1);
+    }
+
+    private void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
         }
+    }
+    //Быстрая сортировка - самая популярная рекурсивная сортировка
+
+    private int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+            }
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+
+    private void swapElements(Integer[] arr, int left, int right) {
+        int temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
     }
 
     private int binarySearch(Integer[] array, int element) {
@@ -217,6 +254,7 @@ public class IntegerListImpl implements IntegerList{
     //Ищем индекс элемента в отсортированном списке
 
     private void grow() {
-        this.data = Arrays.copyOf(this.data, this.data.length+1);
+        int newSize = this.data.length + this.data.length / 2 + 1;
+        this.data = Arrays.copyOf(this.data, newSize);
     }
 }
